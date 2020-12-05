@@ -1,4 +1,4 @@
-import { getAppStorage, setAppStorage, clearAppStorage } from "./appStorage";
+import { getAppStorage, setAppStorage } from "./appStorage";
 
 class DeviceData {
   constructor() {

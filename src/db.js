@@ -16,5 +16,5 @@ if (!firebase.apps.length) {
 export default firebase
   .database()
   .ref()
-  .child("planning-poker");
+  .child("planning-poker-v2");
 

@@ -1,15 +1,13 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
-import "./style.css";
-import { v4 as uuidv4 } from "uuid";
-import db from "./db";
-import { getDeviceData, setDeviceData, resetDeviceData } from "./deviceData";
-import * as stats from "stats-lite";
-
-// components
-import UsernameForm from "./UsernameForm";
-import PointPickerForm from "./PointPickerForm";
-import PlayerCard from "./PlayerCard";
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import * as stats from 'stats-lite';
+import { v4 as uuidv4 } from 'uuid';
+import { getDeviceData, resetDeviceData, setDeviceData } from './deviceData';
+import PlayerCard from './PlayerCard';
+import PointPickerForm from './PointPickerForm';
+import { PokerRoomService } from './PokerRoomService';
+import './style.css';
+import UsernameForm from './UsernameForm';
 
 class Player {
   constructor({ name }) {
@@ -20,21 +18,24 @@ class Player {
 }
 
 class App extends Component {
+  roomService;
+
   constructor() {
     super();
+    this.roomService = new PokerRoomService('testing');
     this.state = {
       deviceData: getDeviceData(),
       flipped: false, // common
-      players: {} // common
+      players: {}, // common
     };
   }
 
   componentDidMount() {
-    db.child("players").on("value", snapshot => {
+    this.roomService.players.on('value', (snapshot) => {
       const players = snapshot.val() || {};
       this.setState({ players: players });
     });
-    db.child("flipped").on("value", snapshot => {
+    this.roomService.flipped.on('value', (snapshot) => {
       this.setState({ flipped: !!snapshot.val() });
     });
   }
@@ -42,12 +43,12 @@ class App extends Component {
   handleUsernameSubmit(name) {
     const newDeviceData = setDeviceData({
       name: name,
-      username: `${uuidv4()}_${name}`
+      username: `${uuidv4()}_${name}`,
     });
 
     const updatedPlayers = { ...this.state.players };
     updatedPlayers[newDeviceData.username] = new Player({ name: name });
-    db.child("players").update(updatedPlayers);
+    this.roomService.players.update(updatedPlayers);
 
     this.setState({ deviceData: newDeviceData });
   }
@@ -59,7 +60,7 @@ class App extends Component {
       return;
     }
     updatedPlayers[this.state.deviceData.username].value = value;
-    db.child("players").update(updatedPlayers);
+    this.roomService.players.update(updatedPlayers);
   }
 
   handleFlip() {
@@ -70,7 +71,7 @@ class App extends Component {
       }
     });
 
-    db.update({ flipped: true, players: updatedPlayers });
+    this.roomService.room.update({ flipped: true, players: updatedPlayers });
   }
 
   handleReset() {
@@ -80,14 +81,14 @@ class App extends Component {
       value.value = null;
     });
 
-    db.update({ flipped: false, players: updatedPlayers });
+    this.roomService.room.update({ flipped: false, players: updatedPlayers });
   }
 
   handleRemovePlayer(username) {
     const updatedPlayers = { ...this.state.players };
     delete updatedPlayers[username];
 
-    db.child("players").set(updatedPlayers);
+    this.roomService.players.set(updatedPlayers);
   }
 
   handleExit() {
@@ -95,12 +96,12 @@ class App extends Component {
     delete updatedPlayers[this.state.deviceData.username];
 
     this.resetDeviceData();
-    db.child("players").set(updatedPlayers);
+    this.roomService.players.set(updatedPlayers);
   }
 
   resetDeviceData() {
     this.setState({
-      deviceData: resetDeviceData()
+      deviceData: resetDeviceData(),
     });
   }
 
@@ -113,21 +114,21 @@ class App extends Component {
     return this.state.deviceData.name;
   }
 
-  getValues() {
+  getPlayerValues() {
     return Object.entries(this.state.players)
       .filter(([username, player]) => !!player.value && player.flipped)
       .map(([username, player]) => Number(player.value));
   }
 
   getMode() {
-    const mode = stats.mode(this.getValues());
-    console.log('mode =', mode)
+    const mode = stats.mode(this.getPlayerValues());
+    console.log('mode =', mode);
     return JSON.stringify(mode);
   }
 
   getMean() {
-    const mean = stats.mean(this.getValues());
-    return (mean && mean.toFixed(2)) || "n/a";
+    const mean = stats.mean(this.getPlayerValues());
+    return (mean && mean.toFixed(2)) || 'n/a';
   }
 
   getPlayers() {
@@ -142,18 +143,18 @@ class App extends Component {
 
   render() {
     // console.log("rendering");
-    // console.log("render > this.getValues() = ", Object.values(this.state.players).map(players => players.value));
-    // console.log(stats.mode(this.getValues()))
+    // console.log("render > this.getPlayerValues() = ", Object.values(this.state.players).map(players => players.value));
+    // console.log(stats.mode(this.getPlayerValues()))
     return (
       <div className="container">
         <div className="mt-3 mb-3">
           {!this.getUsername() ? (
-            <UsernameForm onSubmit={e => this.handleUsernameSubmit(e)} />
+            <UsernameForm onSubmit={(e) => this.handleUsernameSubmit(e)} />
           ) : (
             <div>
               <PointPickerForm
                 name={this.getName()}
-                onSubmit={e => this.handlePointSelection(e)}
+                onSubmit={(e) => this.handlePointSelection(e)}
                 onExit={() => this.handleExit()}
               />
 
@@ -180,7 +181,7 @@ class App extends Component {
         </div>
 
         {!this.state.flipped ? (
-          ""
+          ''
         ) : (
           <div className="text-center mb-3">
             Mode: {this.getMode()} | Mean : {this.getMean()}
@@ -194,7 +195,7 @@ class App extends Component {
                 key={username}
                 username={username}
                 player={player}
-                onRemovePlayer={username => this.handleRemovePlayer(username)}
+                onRemovePlayer={(username) => this.handleRemovePlayer(username)}
                 currentUser={this.getUsername()}
               />
             );
@@ -205,4 +206,4 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById("root"));
+render(<App />, document.getElementById('root'));
