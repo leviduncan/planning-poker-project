@@ -1,0 +1,85 @@
+h1, p {
+  font-family: Lato;
+}
+
+.flip-button-container {
+  text-align: center;
+}
+
+
+.player-tile {
+  border: 1px solid #1f2525;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  position: relative;
+}
+
+.player-tile.me {
+  background-color: #eaefef;
+}
+
+.player-remove {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  cursor: pointer;
+}
+
+.player-name {
+  width: 50%;  
+  text-align: center
+}
+
+.player-card {
+  border: 1px solid #1f2525;
+  border-radius: 5px;
+  width: 50%;
+  padding-top: 66%;
+  position: relative;
+  transition: transform 0.3s;
+  transform: rotate3d(0, 1, 0, 180deg);
+}
+
+.player-card.pulse {
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 1);
+  animation: pulse 1s;
+}
+
+@keyframes pulse {
+	0% {
+		box-shadow: 0 0 0 0 rgba(52, 172, 224, 0.7);
+	}
+	
+	70% {
+		box-shadow: 0 0 0 10px rgba(52, 172, 224, 0);
+	}
+	
+	100% {
+		box-shadow: 0 0 0 0 rgba(52, 172, 224, 0);
+	}
+}
+
+.player-card > div {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-card.empty {
+  background-color: #f5f5f5;
+  border-style: dashed;
+}
+.player-card.ready {
+  background-color: #5e7e84;
+}
+.player-card.flipped {
+  background-color: #bacbd1;
+  transform: rotate3d(0, 1, 0, 0deg);
+}
