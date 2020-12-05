@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import * as stats from 'stats-lite';
 import { v4 as uuidv4 } from 'uuid';
 import { getDeviceData, resetDeviceData, setDeviceData } from './deviceData';
@@ -17,7 +16,7 @@ class Player {
   }
 }
 
-class App extends Component {
+export class PokerRoom extends Component {
   roomService;
 
   constructor() {
@@ -205,5 +204,3 @@ class App extends Component {
     );
   }
 }
-
-render(<App />, document.getElementById('root'));
