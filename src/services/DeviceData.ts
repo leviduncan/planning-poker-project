@@ -1,17 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
-import { DeviceData } from '../types/DeviceData.interface';
+import { MaybeDeviceData } from '../types/DeviceData.interface';
 import { LocalStorageService } from './LocalStorage';
 
-const localStorage = new LocalStorageService<DeviceData>('PLANNING_POKER');
+const localStorage = new LocalStorageService<MaybeDeviceData>('PLANNING_POKER');
 const LOCAL_STORAGE_KEY = 'deviceData';
-type OnChangeCallback = (deviceData: DeviceData) => void;
+type OnChangeCallback = (deviceData: MaybeDeviceData) => void;
 const callbacks: OnChangeCallback[] = [];
 
-function getDeviceData(): DeviceData {
+function getDeviceData(): MaybeDeviceData {
   return localStorage.getAppStorage(LOCAL_STORAGE_KEY);
 }
 
-function setDeviceData(deviceData: DeviceData): DeviceData {
+function setDeviceData(deviceData: MaybeDeviceData): MaybeDeviceData {
   const newData = localStorage.setAppStorage(LOCAL_STORAGE_KEY, deviceData);
   callbacks.forEach((callback) => callback(newData));
   return newData;

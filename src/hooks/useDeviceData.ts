@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { DeviceDataService } from '../services/DeviceData';
-import { DeviceData } from '../types/DeviceData.interface';
+import { MaybeDeviceData } from '../types/DeviceData.interface';
 
-export function useDeviceData(): [DeviceData | null, (name: string) => void] {
-  const [deviceData, setDeviceData] = useState<DeviceData | null>(
+export function useDeviceData(): [
+  MaybeDeviceData,
+  (name: string) => void,
+  () => void
+] {
+  const [deviceData, setDeviceData] = useState<MaybeDeviceData>(
     DeviceDataService.getDeviceData()
   );
 
@@ -11,7 +15,9 @@ export function useDeviceData(): [DeviceData | null, (name: string) => void] {
   // effects
   // ----------------------------------------
   useEffect(() => {
-    DeviceDataService.onChange(setDeviceData);
+    DeviceDataService.onChange((deviceData) => {
+      setDeviceData(deviceData);
+    });
   }, []);
 
   // ----------------------------------------
@@ -21,5 +27,9 @@ export function useDeviceData(): [DeviceData | null, (name: string) => void] {
     DeviceDataService.setName(name);
   }
 
-  return [deviceData, setName];
+  function logout() {
+    DeviceDataService.setDeviceData(null);
+  }
+
+  return [deviceData, setName, logout];
 }

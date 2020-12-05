@@ -10,7 +10,7 @@ function App() {
   // ----------------------------------------
   // effects
   // ----------------------------------------
-  const [deviceData, setName] = useDeviceData();
+  const [deviceData, setName, logout] = useDeviceData();
 
   // ----------------------------------------
   // helper functions
@@ -22,11 +22,20 @@ function App() {
   return (
     <div className="container">
       <div className="mt-3 mb-3">
-        <UsernameForm onSubmit={setName} />
-        {deviceData && (
+        <h1>Planning Poker</h1>
+        {deviceData ? (
           <div>
-            hello {deviceData.name} | username = {deviceData.username}
+            <div>
+              hello {deviceData.name} | username = {deviceData.username}
+            </div>
+            <div>
+              <button className="btn btn-danger" onClick={logout}>
+                Logout
+              </button>
+            </div>
           </div>
+        ) : (
+          <UsernameForm onSubmit={setName} />
         )}
       </div>
     </div>
