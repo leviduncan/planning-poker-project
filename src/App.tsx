@@ -1,6 +1,7 @@
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { CreateOrJoinRoom } from './components/CreateOrJoinRoom';
+import { Nav } from './components/Nav';
 import { PokerRoom } from './components/PokerRoom';
 import { UsernameForm } from './components/UsernameForm';
 import { useDeviceData } from './hooks/useDeviceData';
@@ -13,7 +14,7 @@ function App() {
   // ----------------------------------------
   // effects
   // ----------------------------------------
-  const [deviceData, setName, logout] = useDeviceData();
+  const [deviceData, setName] = useDeviceData();
 
   // ----------------------------------------
   // helper functions
@@ -29,15 +30,7 @@ function App() {
           <h1>Planning Poker</h1>
           {deviceData ? (
             <div>
-              <div className="mb-3">
-                <div>hello {deviceData.name}</div>
-                <div>username = {deviceData.username}</div>
-                <div>
-                  <button className="btn btn-danger" onClick={logout}>
-                    Logout
-                  </button>
-                </div>
-              </div>
+              <Nav deviceData={deviceData}></Nav>
               <Switch>
                 <Route exact path="/">
                   <CreateOrJoinRoom></CreateOrJoinRoom>

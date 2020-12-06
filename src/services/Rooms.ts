@@ -1,4 +1,5 @@
 import shortid from 'shortid';
+import { Room } from '../types/Room';
 import { DatabaseService } from './Db';
 
 const RoomsRef = DatabaseService.child('rooms');
@@ -26,7 +27,7 @@ function saveNewRoom(
     RoomsRef.set(
       {
         ...oldRooms,
-        [newRoomId]: { name: roomName },
+        [newRoomId]: new Room(roomName),
       },
       (error) => {
         if (error) {
@@ -39,6 +40,11 @@ function saveNewRoom(
   });
 }
 
+function getRoomData(roomId: string) {
+  return RoomsRef.child(roomId);
+}
+
 export const RoomsService = {
   createRoom,
+  getRoomData,
 };

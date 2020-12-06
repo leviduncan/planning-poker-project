@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { DeviceDataService } from '../services/DeviceData';
 import { MaybeDeviceData } from '../types/DeviceData.interface';
 
-export function useDeviceData(): [
-  MaybeDeviceData,
-  (name: string) => void,
-  () => void
-] {
+export function useDeviceData(): [MaybeDeviceData, (name: string) => void] {
   const [deviceData, setDeviceData] = useState<MaybeDeviceData>(
     DeviceDataService.getDeviceData()
   );
@@ -27,9 +23,5 @@ export function useDeviceData(): [
     DeviceDataService.setName(name);
   }
 
-  function logout() {
-    DeviceDataService.setDeviceData(null);
-  }
-
-  return [deviceData, setName, logout];
+  return [deviceData, setName];
 }
