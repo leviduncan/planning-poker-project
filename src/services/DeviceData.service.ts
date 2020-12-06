@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { MaybeDeviceData } from '../types/DeviceData.interface';
-import { LocalStorageService } from './LocalStorage';
+import { LocalStorageService } from './LocalStorage.service';
 
 const localStorage = new LocalStorageService<MaybeDeviceData>('PLANNING_POKER');
 const LOCAL_STORAGE_KEY = 'deviceData';

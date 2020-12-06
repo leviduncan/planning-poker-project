@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { RoomsService } from '../services/Rooms';
+import { RoomsService } from '../services/Rooms.service';
 
 export const CreateOrJoinRoom: FunctionComponent<{}> = () => {
   // ----------------------------------------
@@ -15,7 +15,6 @@ export const CreateOrJoinRoom: FunctionComponent<{}> = () => {
   // ----------------------------------------
   function createRoom(e: React.FormEvent) {
     e.preventDefault();
-    // roomName && onCreateRoom(roomName);
     roomName &&
       RoomsService.createRoom(roomName)
         .then((newRoomCode) => {
@@ -28,9 +27,11 @@ export const CreateOrJoinRoom: FunctionComponent<{}> = () => {
 
   function joinRoom(e: React.FormEvent) {
     e.preventDefault();
-    console.log('? joinRoom');
+    if (!roomCode) {
+      return;
+    }
 
-    roomCode && navigateToRoom(roomCode);
+    navigateToRoom(roomCode);
   }
 
   function navigateToRoom(roomCode: string) {

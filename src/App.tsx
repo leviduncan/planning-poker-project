@@ -35,8 +35,8 @@ function App() {
                 <Route exact path="/">
                   <CreateOrJoinRoom></CreateOrJoinRoom>
                 </Route>
-                <Route path="/rooms/:id">
-                  <PokerRoom></PokerRoom>
+                <Route path="/rooms/:roomId">
+                  <PokerRoom deviceData={deviceData}></PokerRoom>
                 </Route>
               </Switch>
             </div>

@@ -1,21 +1,56 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { RoomsService } from '../services/Rooms';
+import { Link, useParams } from 'react-router-dom';
+import { RoomsService } from '../services/Rooms.service';
+import { DeviceData } from '../types/DeviceData.interface';
 import { Room } from '../types/Room';
 
-export const PokerRoom: FunctionComponent<{}> = () => {
+type RoomStates = Room | null | 'invalid';
+function isRoomValid(room: RoomStates): room is Room {
+  return room !== null && room !== 'invalid';
+}
+
+export const PokerRoom: FunctionComponent<{ deviceData: DeviceData }> = ({
+  deviceData,
+}) => {
   // ----------------------------------------
   // state
   // ----------------------------------------
-  const { id } = useParams<{ id: string }>();
-  const [room, setRoom] = useState<Room | null>(null);
+  const { roomId } = useParams<{ roomId: string }>();
+  const [room, setRoom] = useState<RoomStates>(null);
 
+  // subscribe to room updates
   useEffect(() => {
-    console.log('get data for room id =', id);
-    RoomsService.getRoomData(id).on('value', (snapshot) => {
-      setRoom(snapshot.val());
+    RoomsService.getRoomData(roomId).on('value', (snapshot) => {
+      const newRoom = snapshot.val();
+      if (!newRoom) {
+        return setRoom('invalid');
+      }
+      setRoom(newRoom);
     });
-  }, [id]);
+  }, [roomId]);
+
+  // subscribe to room player and room flip updates
+  // when the players or flipped values are changes, it does not trigger an update on rooms
+  useEffect(() => {
+    RoomsService.getRoomPlayersRef(roomId).on('value', (snapshot) => {
+      setRoom((room) => {
+        if (isRoomValid(room)) {
+          return { ...room, players: snapshot.val() };
+        }
+        return room;
+      });
+    });
+  }, [roomId]);
+
+  // add player if not already in room
+  useEffect(() => {
+    if (isRoomValid(room)) {
+      const players = room.players || {};
+      if (!(deviceData.username in players)) {
+        RoomsService.addRoomPlayer(roomId, deviceData.username);
+      }
+    }
+  }, [roomId, room, deviceData]);
 
   // ----------------------------------------
   // helper functions
@@ -25,10 +60,24 @@ export const PokerRoom: FunctionComponent<{}> = () => {
   // render
   // ----------------------------------------
 
-  return (
-    <div>
-      <div>You're in poker room: {id}</div>
-      <pre>{JSON.stringify(room)}</pre>
-    </div>
-  );
+  switch (room) {
+    case null:
+      return <div>Loading...</div>;
+    case 'invlaid':
+      return (
+        <div>
+          <div>Room not found</div>
+          <div>
+            <Link to="/">Home</Link>
+          </div>
+        </div>
+      );
+    default:
+      return (
+        <div>
+          <div>You're in poker room: {roomId}</div>
+          <pre>{JSON.stringify(room, null, 4)}</pre>
+        </div>
+      );
+  }
 };

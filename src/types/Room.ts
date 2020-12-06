@@ -1,8 +1,4 @@
-interface Player {
-  flipped: boolean;
-  name: string;
-}
-
+import { Player } from './Player';
 export class Room {
   flipped = false;
   players: { [key: string]: Player } | undefined = {};

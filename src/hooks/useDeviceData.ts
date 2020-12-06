@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DeviceDataService } from '../services/DeviceData';
+import { DeviceDataService } from '../services/DeviceData.service';
 import { MaybeDeviceData } from '../types/DeviceData.interface';
 
 export function useDeviceData(): [MaybeDeviceData, (name: string) => void] {

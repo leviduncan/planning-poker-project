@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
-import { DeviceDataService } from '../services/DeviceData';
+import { DeviceDataService } from '../services/DeviceData.service';
 import { DeviceData } from '../types/DeviceData.interface';
 
 export const Nav: FunctionComponent<{ deviceData: DeviceData }> = ({
