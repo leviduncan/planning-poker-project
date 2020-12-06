@@ -1,8 +1,9 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { RoomsService } from '../services/Rooms.service';
 import { DeviceData } from '../types/DeviceData.interface';
 import { Room } from '../types/Room';
+import { PlayerCard } from './PlayerCard';
 
 type RoomStates = Room | null | 'invalid';
 function isRoomValid(room: RoomStates): room is Room {
@@ -47,7 +48,11 @@ export const PokerRoom: FunctionComponent<{ deviceData: DeviceData }> = ({
     if (isRoomValid(room)) {
       const players = room.players || {};
       if (!(deviceData.username in players)) {
-        RoomsService.addRoomPlayer(roomId, deviceData.username);
+        RoomsService.addRoomPlayer(
+          roomId,
+          deviceData.username,
+          deviceData.name
+        );
       }
     }
   }, [roomId, room, deviceData]);
@@ -56,28 +61,33 @@ export const PokerRoom: FunctionComponent<{ deviceData: DeviceData }> = ({
   // helper functions
   // ----------------------------------------
 
+  function removePlayer(a: any) {
+    console.log('remove player =', a);
+  }
+
   // ----------------------------------------
   // render
   // ----------------------------------------
-
-  switch (room) {
-    case null:
-      return <div>Loading...</div>;
-    case 'invlaid':
-      return (
-        <div>
-          <div>Room not found</div>
-          <div>
-            <Link to="/">Home</Link>
-          </div>
+  if (room === null) {
+    return <div>Loading...</div>;
+  } else if (room === 'invalid') {
+    return <div>Room not found</div>;
+  } else {
+    return (
+      <div>
+        <div>You're in poker room: {roomId}</div>
+        <pre>{JSON.stringify(room, null, 4)}</pre>
+        <div className="row">
+          {Object.keys(room.players).map((playerKey) => (
+            <PlayerCard
+              username={playerKey}
+              currentUser={deviceData.username}
+              player={room.players[playerKey]}
+              onRemovePlayer={removePlayer}
+            ></PlayerCard>
+          ))}
         </div>
-      );
-    default:
-      return (
-        <div>
-          <div>You're in poker room: {roomId}</div>
-          <pre>{JSON.stringify(room, null, 4)}</pre>
-        </div>
-      );
+      </div>
+    );
   }
 };

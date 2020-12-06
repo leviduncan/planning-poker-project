@@ -16,12 +16,14 @@ function createRoom(roomName: string): Promise<string> {
       throw new Error('couldnt create new room b/c of id collision');
     }
 
-    const player = DeviceDataService.getDeviceData();
-    if (!player) {
-      throw new Error('player not defined');
+    const deviceData = DeviceDataService.getDeviceData();
+    if (!deviceData) {
+      throw new Error('deviceData not defined');
     }
 
-    RoomsRef.child(roomId).set(new Room(roomName));
+    RoomsRef.child(roomId).set(
+      new Room(roomName, deviceData.username, deviceData.name)
+    );
 
     return roomId;
   });
@@ -35,8 +37,8 @@ function getRoomPlayersRef(roomId: string) {
   return getRoomData(roomId).child('players');
 }
 
-function addRoomPlayer(roomId: string, username: string) {
-  getRoomPlayersRef(roomId).child(username).set(new Player(username));
+function addRoomPlayer(roomId: string, username: string, name: string) {
+  getRoomPlayersRef(roomId).child(username).set(new Player(name));
 }
 
 function updateRoomPlayer(roomId: string, username: string, player: Player) {
