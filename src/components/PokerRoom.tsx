@@ -58,36 +58,42 @@ export const PokerRoom: FunctionComponent<{ deviceData: DeviceData }> = ({
   }, [roomId, room, deviceData]);
 
   // ----------------------------------------
-  // helper functions
-  // ----------------------------------------
-
-  function removePlayer(a: any) {
-    console.log('remove player =', a);
-  }
-
-  // ----------------------------------------
-  // render
+  // null checks
   // ----------------------------------------
   if (room === null) {
     return <div>Loading...</div>;
   } else if (room === 'invalid') {
     return <div>Room not found</div>;
-  } else {
-    return (
-      <div>
-        <div>You're in poker room: {roomId}</div>
-        <pre>{JSON.stringify(room, null, 4)}</pre>
-        <div className="row">
-          {Object.keys(room.players).map((playerKey) => (
-            <PlayerCard
-              username={playerKey}
-              currentUser={deviceData.username}
-              player={room.players[playerKey]}
-              onRemovePlayer={removePlayer}
-            ></PlayerCard>
-          ))}
-        </div>
-      </div>
-    );
   }
+
+  // ----------------------------------------
+  // helper functions
+  // ----------------------------------------
+  const players = room.players;
+
+  function removePlayer(username: string) {
+    console.log('remove player with username =', username);
+    const targetPlayer = players[username];
+    targetPlayer.booted = true;
+
+    RoomsService.updateRoomPlayer(roomId, username, targetPlayer);
+  }
+
+  return (
+    <div>
+      <div>You're in poker room: {roomId}</div>
+      <pre>{JSON.stringify(room, null, 4)}</pre>
+      <div className="row">
+        {Object.keys(players).map((playerKey) => (
+          <PlayerCard
+            key={playerKey}
+            username={playerKey}
+            currentUser={deviceData.username}
+            player={room.players[playerKey]}
+            onRemovePlayer={removePlayer}
+          ></PlayerCard>
+        ))}
+      </div>
+    </div>
+  );
 };

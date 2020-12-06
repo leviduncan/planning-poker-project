@@ -21,11 +21,18 @@ function createRoom(roomName: string): Promise<string> {
       throw new Error('deviceData not defined');
     }
 
-    RoomsRef.child(roomId).set(
-      new Room(roomName, deviceData.username, deviceData.name)
-    );
-
-    return roomId;
+    return new Promise((resolve, reject) => {
+      RoomsRef.child(roomId).set(
+        new Room(roomName, deviceData.username, deviceData.name),
+        (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(roomId);
+          }
+        }
+      );
+    });
   });
 }
 
