@@ -21,7 +21,7 @@ export const PokerRoom: FunctionComponent<{ deviceData: DeviceData }> = ({
 
   // subscribe to room updates
   useEffect(() => {
-    RoomsService.getRoomData(roomId).on('value', (snapshot) => {
+    RoomsService.getRoomRef(roomId).on('value', (snapshot) => {
       const newRoom = snapshot.val();
       if (!newRoom) {
         return setRoom('invalid');

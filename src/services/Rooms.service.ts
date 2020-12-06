@@ -36,12 +36,12 @@ function createRoom(roomName: string): Promise<string> {
   });
 }
 
-function getRoomData(roomId: string) {
+function getRoomRef(roomId: string) {
   return RoomsRef.child(roomId);
 }
 
 function getRoomPlayersRef(roomId: string) {
-  return getRoomData(roomId).child('players');
+  return getRoomRef(roomId).child('players');
 }
 
 function addRoomPlayer(roomId: string, username: string, name: string) {
@@ -58,7 +58,7 @@ function deleteRoomPlayer(roomId: string, username: string) {
 
 export const RoomsService = {
   createRoom,
-  getRoomData,
+  getRoomRef,
   getRoomPlayersRef,
   addRoomPlayer,
   updateRoomPlayer,
