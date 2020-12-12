@@ -3,6 +3,7 @@ import './App.css';
 import { CreateOrJoinRoom } from './components/CreateOrJoinRoom';
 import { Nav } from './components/Nav';
 import { PokerRoom } from './components/PokerRoom';
+import { PokerRoomPage } from './components/PokerRoomPage';
 import { UsernameForm } from './components/UsernameForm';
 import { useDeviceData } from './hooks/useDeviceData';
 
@@ -36,7 +37,7 @@ function App() {
                   <CreateOrJoinRoom></CreateOrJoinRoom>
                 </Route>
                 <Route path="/rooms/:roomId">
-                  <PokerRoom deviceData={deviceData}></PokerRoom>
+                  <PokerRoomPage deviceData={deviceData}></PokerRoomPage>
                 </Route>
               </Switch>
             </div>
