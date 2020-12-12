@@ -44,6 +44,10 @@ function addRoomPlayer(roomId: string, userId: string, name: string) {
   RoomsRef.child(roomId).child('players').child(userId).set(new Player(name));
 }
 
+function removeRoomPlayer(roomId: string, userId: string) {
+  RoomsRef.child(roomId).child('players').child(userId).remove();
+}
+
 // function updateRoomPlayer(roomId: string, userId: string, player: Player) {
 //   getRoomPlayersRef(roomId).child(userId).set(player);
 // }
@@ -56,4 +60,5 @@ export const RoomsService = {
   createRoom,
   onRoomUpdate,
   addRoomPlayer,
+  removeRoomPlayer,
 };

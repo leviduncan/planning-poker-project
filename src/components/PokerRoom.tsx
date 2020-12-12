@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { RoomsService } from '../services/Rooms.service';
 import { DeviceData } from '../types/DeviceData.interface';
 import { Room } from '../types/Room';
+import { PlayerCard } from './PlayerCard';
 import { PointPickerForm } from './PointPickerForm';
 
 export const PokerRoom: FunctionComponent<{
@@ -13,6 +15,7 @@ export const PokerRoom: FunctionComponent<{
   // constants
   // ----------------------------------------
   const currentPlayerData = room.players[deviceData.userId];
+  const history = useHistory();
 
   // ----------------------------------------
   // effects
@@ -29,12 +32,24 @@ export const PokerRoom: FunctionComponent<{
   }
 
   function handleExit() {
-    console.log('exit room');
+    history.push('/');
+  }
+
+  function handleRemovePlayer(userId: string) {
+    RoomsService.removeRoomPlayer(roomId, userId);
   }
 
   // ----------------------------------------
   // render
   // ----------------------------------------
+  const sortedPlayers = Object.entries(room.players).sort(([a], [b]) => {
+    if (a === deviceData.userId) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
   return (
     <div>
       <div>
@@ -47,6 +62,18 @@ export const PokerRoom: FunctionComponent<{
         onSubmit={handlePointSubmit}
         onExit={handleExit}
       ></PointPickerForm>
+
+      <div className="row">
+        {sortedPlayers.map(([userId, player]) => (
+          <PlayerCard
+            key={userId}
+            userId={userId}
+            currentUser={deviceData.userId}
+            player={player}
+            onRemovePlayer={handleRemovePlayer}
+          ></PlayerCard>
+        ))}
+      </div>
 
       <div>
         <pre>{JSON.stringify(room, null, 2)}</pre>

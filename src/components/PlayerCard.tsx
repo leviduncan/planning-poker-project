@@ -14,11 +14,11 @@ function cardClass(flipped: boolean, value: string) {
 }
 
 export const PlayerCard: FunctionComponent<{
-  username: string;
+  userId: string;
   currentUser: string;
   player: Player;
-  onRemovePlayer: (username: string) => void;
-}> = ({ username, player, onRemovePlayer, currentUser }) => {
+  onRemovePlayer: (userId: string) => void;
+}> = ({ userId, player, onRemovePlayer, currentUser }) => {
   // ----------------------------------------
   // state
   // ----------------------------------------
@@ -43,13 +43,13 @@ export const PlayerCard: FunctionComponent<{
   // ----------------------------------------
   return (
     <div className="col-6 col-sm-4 col-md-3 mb-3">
-      <div className={`player-tile ${currentUser === username ? 'me' : ''}`}>
-        <div className="player-remove" onClick={() => onRemovePlayer(username)}>
+      <div className={`player-tile ${currentUser === userId ? 'me' : ''}`}>
+        <div className="player-remove" onClick={() => onRemovePlayer(userId)}>
           ✕
         </div>
         <div className="player-name">
           <div>{player.name}</div>
-          <small>{currentUser === username ? '(you)' : ''}</small>
+          <small>{currentUser === userId ? '(you)' : ''}</small>
         </div>
         <animated.div
           className={`player-card ${pulse ? 'pulse' : ''} ${cardClass(
