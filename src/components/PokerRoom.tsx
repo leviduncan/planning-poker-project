@@ -22,14 +22,11 @@ export const PokerRoom: FunctionComponent<{
   // ----------------------------------------
   useEffect(() => {
     RoomsService.addRoomPlayer(roomId, deviceData.userId, deviceData.name);
-  }, [roomId, room, deviceData]);
+  }, [roomId, deviceData]);
 
   // ----------------------------------------
   // helper functions
   // ----------------------------------------
-  function handlePointSubmit(selectedPoints: string) {
-    console.log('submitted', selectedPoints);
-  }
 
   function handleExit() {
     history.push('/');
@@ -38,6 +35,19 @@ export const PokerRoom: FunctionComponent<{
   function handleRemovePlayer(userId: string) {
     RoomsService.removeRoomPlayer(roomId, userId);
   }
+
+  function handlePointSubmit(selectedPoints: string) {
+    RoomsService.updateRoomPlayer(roomId, deviceData.userId, {
+      value: selectedPoints,
+      flipped: false,
+    });
+  }
+
+  function handleFlipAllCards() {
+    RoomsService.flipAllRoomCards(roomId, room);
+  }
+
+  function handleResetCards() {}
 
   // ----------------------------------------
   // render
@@ -58,10 +68,28 @@ export const PokerRoom: FunctionComponent<{
       <div className="mb-2">
         <strong>Room Id:</strong> {roomId}
       </div>
-      <PointPickerForm
-        onSubmit={handlePointSubmit}
-        onExit={handleExit}
-      ></PointPickerForm>
+      <div className="mb-2">
+        <PointPickerForm
+          onSubmit={handlePointSubmit}
+          onExit={handleExit}
+        ></PointPickerForm>
+      </div>
+      <div className="mb-3 text-center">
+        <button
+          type="button"
+          className="btn btn-success mr-3"
+          onClick={handleFlipAllCards}
+        >
+          Flip all cards
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={handleResetCards}
+        >
+          Reset
+        </button>
+      </div>
 
       <div className="row">
         {sortedPlayers.map(([userId, player]) => (

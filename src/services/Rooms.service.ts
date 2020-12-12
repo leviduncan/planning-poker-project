@@ -48,6 +48,25 @@ function removeRoomPlayer(roomId: string, userId: string) {
   RoomsRef.child(roomId).child('players').child(userId).remove();
 }
 
+function updateRoomPlayer(
+  roomId: string,
+  userId: string,
+  updatedPlayer: Partial<Player>
+) {
+  RoomsRef.child(roomId).child('players').child(userId).update(updatedPlayer);
+}
+
+function flipAllRoomCards(roomId: string, currentRoom: Room) {
+  const players = currentRoom.players;
+  Object.entries(players).forEach(([_user_id, player]) => {
+    if (player.value) {
+      player.flipped = true;
+    }
+  });
+
+  RoomsRef.child(roomId).child('players').update(players);
+}
+
 // function updateRoomPlayer(roomId: string, userId: string, player: Player) {
 //   getRoomPlayersRef(roomId).child(userId).set(player);
 // }
@@ -61,4 +80,6 @@ export const RoomsService = {
   onRoomUpdate,
   addRoomPlayer,
   removeRoomPlayer,
+  updateRoomPlayer,
+  flipAllRoomCards,
 };
