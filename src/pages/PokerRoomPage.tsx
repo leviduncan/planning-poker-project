@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { RoomsService } from '../services/Rooms.service';
 import { DeviceData } from '../types/DeviceData.interface';
 import { Room } from '../types/Room';
-import { PokerRoom } from './PokerRoom';
+import { PokerRoom } from '../components/PokerRoom';
 
 export const PokerRoomPage: FunctionComponent<{ deviceData: DeviceData }> = ({
   deviceData,
