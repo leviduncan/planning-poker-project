@@ -23,7 +23,7 @@ function createRoom(roomName: string): Promise<string> {
 
     return new Promise((resolve, reject) => {
       RoomsRef.child(roomId).set(
-        new Room(roomName, deviceData.username, deviceData.name),
+        new Room(roomName, deviceData.userId, deviceData.name),
         (err) => {
           if (err) {
             reject(err);
@@ -36,31 +36,24 @@ function createRoom(roomName: string): Promise<string> {
   });
 }
 
-function getRoomRef(roomId: string) {
-  return RoomsRef.child(roomId);
+function onRoomUpdate(roomId: string, callback: (room: Room | null) => void) {
+  RoomsRef.child(roomId).on('value', (snapshot) => callback(snapshot.val()));
 }
 
-function getRoomPlayersRef(roomId: string) {
-  return getRoomRef(roomId).child('players');
+function addRoomPlayer(roomId: string, userId: string, name: string) {
+  RoomsRef.child(roomId).child('players').child(userId).set(new Player(name));
 }
 
-function addRoomPlayer(roomId: string, username: string, name: string) {
-  getRoomPlayersRef(roomId).child(username).set(new Player(name));
-}
+// function updateRoomPlayer(roomId: string, userId: string, player: Player) {
+//   getRoomPlayersRef(roomId).child(userId).set(player);
+// }
 
-function updateRoomPlayer(roomId: string, username: string, player: Player) {
-  getRoomPlayersRef(roomId).child(username).set(player);
-}
-
-function deleteRoomPlayer(roomId: string, username: string) {
-  getRoomPlayersRef(roomId).child(username).remove();
-}
+// function deleteRoomPlayer(roomId: string, userId: string) {
+//   getRoomPlayersRef(roomId).child(userId).remove();
+// }
 
 export const RoomsService = {
   createRoom,
-  getRoomRef,
-  getRoomPlayersRef,
+  onRoomUpdate,
   addRoomPlayer,
-  updateRoomPlayer,
-  deleteRoomPlayer,
 };

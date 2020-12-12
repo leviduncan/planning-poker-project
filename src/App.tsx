@@ -2,7 +2,6 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { CreateOrJoinRoom } from './components/CreateOrJoinRoom';
 import { Nav } from './components/Nav';
-import { PokerRoom } from './components/PokerRoom';
 import { PokerRoomPage } from './components/PokerRoomPage';
 import { UsernameForm } from './components/UsernameForm';
 import { useDeviceData } from './hooks/useDeviceData';

@@ -25,7 +25,7 @@ export const Nav: FunctionComponent<{ deviceData: DeviceData }> = ({
   return (
     <div className="mb-3">
       <div>hello {deviceData.name}</div>
-      <div>username = {deviceData.username}</div>
+      <div>username = {deviceData.userId}</div>
       <div>
         <button className="btn btn-danger" onClick={logout}>
           Logout

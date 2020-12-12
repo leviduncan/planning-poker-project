@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { RoomsService } from '../services/Rooms.service';
 import { DeviceData } from '../types/DeviceData.interface';
 import { Room } from '../types/Room';
+import { PokerRoom } from './PokerRoom';
 
 export const PokerRoomPage: FunctionComponent<{ deviceData: DeviceData }> = ({
   deviceData,
@@ -20,13 +21,13 @@ export const PokerRoomPage: FunctionComponent<{ deviceData: DeviceData }> = ({
   // ----------------------------------------
   useEffect(() => {
     setLoading(true);
-    RoomsService.getRoomRef(roomId).on('value', (snapshot) => {
+    RoomsService.onRoomUpdate(roomId, (newRoomData) => {
       setLoading(false);
-      const roomData = snapshot.val();
+      console.log('newRoomData =', newRoomData);
 
-      if (roomData) {
+      if (newRoomData) {
         setInvalidRoom(false);
-        setRoom(roomData);
+        setRoom(newRoomData);
       } else {
         setInvalidRoom(true);
       }
@@ -42,14 +43,15 @@ export const PokerRoomPage: FunctionComponent<{ deviceData: DeviceData }> = ({
   // ----------------------------------------
   if (loading) {
     return <div>Loading...</div>;
-  } else if (invalidRoom) {
+  } else if (invalidRoom || !room) {
     return <div>Room Not Found</div>;
   } else {
     return (
-      <div>
-        in room {roomId}
-        <pre>{JSON.stringify(room, null, 2)}</pre>
-      </div>
+      <PokerRoom
+        roomId={roomId}
+        room={room}
+        deviceData={deviceData}
+      ></PokerRoom>
     );
   }
 };

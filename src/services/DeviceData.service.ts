@@ -25,7 +25,7 @@ function setName(name: string): void {
   setDeviceData({
     ...getDeviceData(),
     name: name,
-    username: `${uuidv4()}_${name}`,
+    userId: `${uuidv4()}_${name}`,
   });
 }
 
