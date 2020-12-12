@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { DeviceDataService } from '../services/DeviceData.service';
 import { DeviceData } from '../types/DeviceData.interface';
+import { ProfileButton } from './ProfileButton';
 
 export const Nav: FunctionComponent<{ deviceData: DeviceData | null }> = ({
   deviceData,
@@ -24,17 +25,24 @@ export const Nav: FunctionComponent<{ deviceData: DeviceData | null }> = ({
   // ----------------------------------------
   return (
     <nav className="navbar navbar-light bg-light">
-      <div className="container-fluid">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
+      >
         <Link className="navbar-brand" to="/">
           Planning Poker
         </Link>
         {deviceData && (
-          <div>
-            <span className="mr-2">Hello {deviceData.name}!</span>
-            <button className="btn btn-outline-danger" onClick={logout}>
-              Logout
-            </button>
-          </div>
+          <ProfileButton deviceData={deviceData}>
+            <li>
+              <button className="dropdown-item" onClick={logout}>
+                Logout
+              </button>
+            </li>
+          </ProfileButton>
         )}
       </div>
     </nav>
