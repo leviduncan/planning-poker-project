@@ -14,7 +14,6 @@ export const PokerRoom: FunctionComponent<{
   // ----------------------------------------
   // constants
   // ----------------------------------------
-  const currentPlayerData = room.players[deviceData.userId];
   const history = useHistory();
 
   // ----------------------------------------
@@ -27,7 +26,6 @@ export const PokerRoom: FunctionComponent<{
   // ----------------------------------------
   // helper functions
   // ----------------------------------------
-
   function handleExit() {
     history.push('/');
   }
@@ -47,7 +45,9 @@ export const PokerRoom: FunctionComponent<{
     RoomsService.flipAllRoomCards(roomId, room);
   }
 
-  function handleResetCards() {}
+  function handleResetCards() {
+    RoomsService.resetAllRoomCards(roomId, room);
+  }
 
   // ----------------------------------------
   // render
@@ -103,10 +103,7 @@ export const PokerRoom: FunctionComponent<{
         ))}
       </div>
 
-      <div>
-        <pre>{JSON.stringify(room, null, 2)}</pre>
-      </div>
-      <pre>{JSON.stringify(currentPlayerData, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(room, null, 2)}</pre> */}
     </div>
   );
 };

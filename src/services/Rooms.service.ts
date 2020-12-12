@@ -58,10 +58,20 @@ function updateRoomPlayer(
 
 function flipAllRoomCards(roomId: string, currentRoom: Room) {
   const players = currentRoom.players;
-  Object.entries(players).forEach(([_user_id, player]) => {
+  Object.entries(players).forEach(([_userId, player]) => {
     if (player.value) {
       player.flipped = true;
     }
+  });
+
+  RoomsRef.child(roomId).child('players').update(players);
+}
+
+function resetAllRoomCards(roomId: string, currentRoom: Room) {
+  const players = currentRoom.players;
+  Object.entries(players).forEach(([_userId, player]) => {
+    player.value = '';
+    player.flipped = false;
   });
 
   RoomsRef.child(roomId).child('players').update(players);
@@ -82,4 +92,5 @@ export const RoomsService = {
   removeRoomPlayer,
   updateRoomPlayer,
   flipAllRoomCards,
+  resetAllRoomCards,
 };
