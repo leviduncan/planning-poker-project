@@ -18,7 +18,7 @@ Play planning poker here: [https://fernished.github.io/planning-poker](https://f
 
 ## Technical Details
 
-This app was built using Firebase as the backend.
+This app was built using [Firebase](https://firebase.google.com/) as the backend.
 
 The frontend was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
