@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { RoomsService } from '../services/Rooms.service';
 import { DeviceData } from '../types/DeviceData.interface';
-import { Room } from '../types/Room';
+import { calculateRoomMean, calculateRoomMode, Room } from '../types/Room';
 import { PlayerCard } from './PlayerCard';
 import { PointPickerForm } from './PointPickerForm';
 
@@ -60,13 +60,16 @@ export const PokerRoom: FunctionComponent<{
     }
   });
 
+  const mode = calculateRoomMode(room.players);
+  const mean = calculateRoomMean(room.players);
+
   return (
     <div>
       <div>
         <strong>You're in room:</strong> {room.name}
       </div>
       <div className="mb-2">
-        <strong>Room Id:</strong> {roomId}
+        <strong>Room code:</strong> {roomId}
       </div>
       <div className="mb-2">
         <PointPickerForm
@@ -89,6 +92,10 @@ export const PokerRoom: FunctionComponent<{
         >
           Reset
         </button>
+      </div>
+
+      <div className="text-center mb-3">
+        Mode: {mode} | Mean : {mean}
       </div>
 
       <div className="row">

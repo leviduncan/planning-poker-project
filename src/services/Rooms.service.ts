@@ -77,14 +77,6 @@ function resetAllRoomCards(roomId: string, currentRoom: Room) {
   RoomsRef.child(roomId).child('players').update(players);
 }
 
-// function updateRoomPlayer(roomId: string, userId: string, player: Player) {
-//   getRoomPlayersRef(roomId).child(userId).set(player);
-// }
-
-// function deleteRoomPlayer(roomId: string, userId: string) {
-//   getRoomPlayersRef(roomId).child(userId).remove();
-// }
-
 export const RoomsService = {
   createRoom,
   onRoomUpdate,
