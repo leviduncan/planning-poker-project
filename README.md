@@ -1,6 +1,26 @@
 # Planning Poker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Fernish Dev Team created this app when our team went full-remote due to the Covid-19 pandemic. Like many other dev teams, we play planning poker when estimating stories and tasks and we used to play with real cards. Since it was awkward to play planning poker over Zoom, chat, etc, we built this small app.
+
+Our team was also migrating our frontend from to React so this app served as a fun playground to "practice" React.
+
+Play planning poker here: [https://fernished.github.io/planning-poker](https://fernished.github.io/planning-poker)
+
+- [Planning Poker](#planning-poker)
+  - [Technical Details](#technical-details)
+  - [Available Scripts](#available-scripts)
+    - [`npm start`](#npm-start)
+    - [`npm test`](#npm-test)
+    - [`npm run deploy`](#npm-run-deploy)
+    - [`npm run build`](#npm-run-build)
+    - [`npm run eject`](#npm-run-eject)
+  - [Learn More](#learn-more)
+
+## Technical Details
+
+This app was built using Firebase as the backend.
+
+The frontend was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
