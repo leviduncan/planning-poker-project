@@ -43,6 +43,29 @@ export const CreateOrJoinRoom: FunctionComponent<{}> = () => {
   // ----------------------------------------
   return (
     <div>
+      <form onSubmit={joinRoom}>
+        <label htmlFor="roomCode">Join Room:</label>
+        <div className="input-group mb-3">
+          <input
+            id="roomCode"
+            type="text"
+            className="form-control"
+            placeholder="Room Code"
+            aria-label="Room Code"
+            onChange={(e) => setRoomCode(e.target.value)}
+          />
+          <div className="input-group-append">
+            <button
+              className="btn btn-outline-primary"
+              type="submit"
+              id="joinRoomButton"
+            >
+              Join Room
+            </button>
+          </div>
+        </div>
+      </form>
+
       <form onSubmit={createRoom}>
         <label htmlFor="roomName">Create Room:</label>
         <div className="input-group mb-3">
@@ -61,29 +84,6 @@ export const CreateOrJoinRoom: FunctionComponent<{}> = () => {
               type="submit"
             >
               Create Room
-            </button>
-          </div>
-        </div>
-      </form>
-
-      <form onSubmit={joinRoom}>
-        <label htmlFor="roomCode">Join Room:</label>
-        <div className="input-group mb-3">
-          <input
-            id="roomCode"
-            type="text"
-            className="form-control"
-            placeholder="Room Code"
-            aria-label="Room Code"
-            onChange={(e) => setRoomCode(e.target.value)}
-          />
-          <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="submit"
-              id="joinRoomButton"
-            >
-              Join Room
             </button>
           </div>
         </div>
