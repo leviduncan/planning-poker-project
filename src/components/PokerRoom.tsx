@@ -31,6 +31,9 @@ export const PokerRoom: FunctionComponent<{
   }
 
   function handleRemovePlayer(userId: string) {
+    if (userId === deviceData.userId) {
+      return;
+    }
     RoomsService.removeRoomPlayer(roomId, userId);
   }
 
