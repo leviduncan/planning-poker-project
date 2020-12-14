@@ -25,7 +25,15 @@ export function calculateRoomMode(players: RoomPlayers): string {
     return '';
   }
 
-  return stats.mode(values).toString();
+  const mode = stats.mode(values) as number | number[] | Set<number>;
+
+  if (mode instanceof Array) {
+    return mode.sort().join(',');
+  } else if (mode instanceof Set) {
+    return Array.from(mode).sort().join(',');
+  } else {
+    return mode.toString();
+  }
 }
 
 export function calculateRoomMean(players: RoomPlayers): string {

@@ -45,7 +45,34 @@ describe('calculateRoomMode', () => {
     expect(calculateRoomMode(players)).toEqual('2');
   });
 
-  test('it returns both as strings if theres a tie', () => {
+  test('it returns both as strings if theres a tie with 4 players', () => {
+    const players: RoomPlayers = {
+      playerA: {
+        name: 'playerA',
+        value: '2',
+        flipped: true,
+      },
+      playerB: {
+        name: 'playerB',
+        value: '1',
+        flipped: true,
+      },
+      playerC: {
+        name: 'playerC',
+        value: '2',
+        flipped: true,
+      },
+      playerD: {
+        name: 'playerD',
+        value: '1',
+        flipped: true,
+      },
+    };
+
+    expect(calculateRoomMode(players)).toEqual('1,2');
+  });
+
+  test('it returns both as strings if theres a tie with 2 players', () => {
     const players: RoomPlayers = {
       playerA: {
         name: 'playerA',
@@ -59,7 +86,7 @@ describe('calculateRoomMode', () => {
       },
     };
 
-    expect(calculateRoomMode(players)).toEqual('2,1');
+    expect(calculateRoomMode(players)).toEqual('1,2');
   });
 
   test('it doest crap out if no one is flipped', () => {
