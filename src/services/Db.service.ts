@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/analytics';
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -10,6 +11,7 @@ if (!firebase.apps.length) {
     storageBucket: 'testing-7bdba.appspot.com',
     messagingSenderId: '123433442681',
     appId: '1:123433442681:web:e2576007bf4485162ca3a8',
+    measurementId: 'G-3JGGSGBJH4',
   });
 }
 
@@ -17,3 +19,5 @@ export const DatabaseService = firebase
   .database()
   .ref()
   .child('planning-poker-v2');
+
+firebase.analytics()
