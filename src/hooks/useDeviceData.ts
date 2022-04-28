@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { analytics } from '../services/Db.service';
 import { DeviceDataService } from '../services/DeviceData.service';
 import { MaybeDeviceData } from '../types/DeviceData.interface';
 
@@ -12,6 +13,7 @@ export function useDeviceData(): [MaybeDeviceData, (name: string) => void] {
   // ----------------------------------------
   useEffect(() => {
     DeviceDataService.onChange((deviceData) => {
+      trackUserId(deviceData);
       setDeviceData(deviceData);
     });
   }, []);
@@ -24,4 +26,9 @@ export function useDeviceData(): [MaybeDeviceData, (name: string) => void] {
   }
 
   return [deviceData, setName];
+}
+function trackUserId(deviceData: MaybeDeviceData) {
+  if (deviceData?.userId) {
+    analytics.setUserId(deviceData.userId);
+  }
 }

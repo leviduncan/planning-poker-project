@@ -4,6 +4,7 @@ import { RoomsService } from '../services/Rooms.service';
 import { DeviceData } from '../types/DeviceData.interface';
 import { Room } from '../types/Room';
 import { PokerRoom } from '../components/PokerRoom';
+import { analytics } from '../services/Db.service';
 
 export const PokerRoomPage: FunctionComponent<{ deviceData: DeviceData }> = ({
   deviceData,
@@ -28,6 +29,8 @@ export const PokerRoomPage: FunctionComponent<{ deviceData: DeviceData }> = ({
       if (newRoomData) {
         setInvalidRoom(false);
         setRoom(newRoomData);
+
+        logPageView(roomId, newRoomData);
       } else {
         setInvalidRoom(true);
       }
@@ -55,3 +58,13 @@ export const PokerRoomPage: FunctionComponent<{ deviceData: DeviceData }> = ({
     );
   }
 };
+
+function logPageView(roomId: string, newRoomData: Room) {
+  try {
+    analytics.logEvent('page_view', {
+      page_title: `Room ${newRoomData.name}`,
+      page_location: window.location.href,
+      page_path: `/#/rooms/${roomId}`,
+    });
+  } catch (error) {}
+}

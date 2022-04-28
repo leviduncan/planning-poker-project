@@ -20,4 +20,4 @@ export const DatabaseService = firebase
   .ref()
   .child('planning-poker-v2');
 
-firebase.analytics()
+export const analytics = firebase.analytics();
