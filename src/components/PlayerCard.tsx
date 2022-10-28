@@ -44,12 +44,12 @@ export const PlayerCard: FunctionComponent<{
   return (
     <div className="col-6 col-sm-4 col-md-3 mb-3">
       <div className={`player-tile ${currentUser === userId ? 'me' : ''}`}>
-        <div className="player-remove" onClick={() => onRemovePlayer(userId)}>
-          ✕
-        </div>
         <div className="player-name">
-          <div>{player.name}</div>
+          <div>{player.name} </div>
           <small>{currentUser === userId ? '(you)' : ''}</small>
+          <div className="player-remove" onClick={() => onRemovePlayer(userId)}>
+            ✕
+          </div>
         </div>
         <animated.div
           className={`player-card ${pulse ? 'pulse' : ''} ${cardClass(

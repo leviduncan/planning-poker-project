@@ -1,30 +1,51 @@
 .player-tile {
-  border: 1px solid #1f2525;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
   padding: 10px;
   position: relative;
+  border-radius: 15px;
+  background-color: #353b66;
+  border: 1px solid #474d80;
+  box-shadow: 5px 5px 20px #00000070;
+  color: #fff;
+  margin: 0;
+}
+
+.player-tile:hover {
+  margin: -2px 0 -2px 0;
 }
 
 .player-tile.me {
-  background-color: #eaefef;
+  background-color: #5d499d;
+  border: 1px solid #6a55b0;
 }
 
 .player-remove {
   position: absolute;
   top: 6px;
-  left: 10px;
+  right: 10px;
   cursor: pointer;
+  font-weight: 900;
 }
 
 .player-name {
+  top: 6px;
   width: 50%;
+  display: flex;
+  align-items: center;
+  padding-bottom: 5px;
   text-align: center;
+  font-size: .8em;
+}
+
+.player-name small {
+  padding-left: 2px;
 }
 
 .player-card {
-  border: 1px solid #1f2525;
+  border: 3px solid #1f2525;
   border-radius: 5px;
   width: 50%;
   padding-top: 66%;
@@ -64,13 +85,22 @@
 }
 
 .player-card.empty {
-  background-color: #f5f5f5;
-  border-style: dashed;
+  background-color: #2b3055;
+  border: solid 3px #74779c;
+  box-shadow: 0px 0px 5px #00000069;
+  background-image: url("data:image/svg+xml,%3Csvg width='48' height='64' viewBox='0 0 48 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M48 28v-4L36 12 24 24 12 12 0 24v4l4 4-4 4v4l12 12 12-12 12 12 12-12v-4l-4-4 4-4zM8 32l-6-6 10-10 10 10-6 6 6 6-10 10L2 38l6-6zm12 0l4-4 4 4-4 4-4-4zm12 0l-6-6 10-10 10 10-6 6 6 6-10 10-10-10 6-6zM0 16L10 6 4 0h4l4 4 4-4h4l-6 6 10 10L34 6l-6-6h4l4 4 4-4h4l-6 6 10 10v4L36 8 24 20 12 8 0 20v-4zm0 32l10 10-6 6h4l4-4 4 4h4l-6-6 10-10 10 10-6 6h4l4-4 4 4h4l-6-6 10-10v-4L36 56 24 44 12 56 0 44v4z' fill='%23464a6c' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 .player-card.ready {
-  background-color: #5e7e84;
+  background-color: #c4d03f;
+  border: solid 3px #74779c;
+  box-shadow: 0px 0px 5px #00000069;
 }
 .player-card.flipped {
-  background-color: #bacbd1;
+  background-color: #c6c8da;
+  border: solid 3px #ffffff;
+  box-shadow: 0px 0px 5px #00000069;
   transform: rotate3d(0, 1, 0, 0deg);
+  color: #44497c;
+  font-weight: 900;
+  font-size: 2rem;
 }

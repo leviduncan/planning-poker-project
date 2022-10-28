@@ -24,7 +24,7 @@ export const Nav: FunctionComponent<{ deviceData: DeviceData | null }> = ({
   // render
   // ----------------------------------------
   return (
-    <nav className="navbar navbar-light bg-light">
+    <nav className="navbar navbar-light bg-purpl">
       <div
         style={{
           display: 'flex',

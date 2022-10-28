@@ -74,13 +74,30 @@ export const PokerRoom: FunctionComponent<{
       <div className="mb-2">
         <strong>Room code:</strong> {roomId}
       </div>
-      <div className="mb-2">
+
+      <div className="mb-2 poker-info">
         <PointPickerForm
           onSubmit={handlePointSubmit}
           onExit={handleExit}
         ></PointPickerForm>
       </div>
-      <div className="mb-3 text-center">
+      <div className="text-center mb-3">
+        Mode: {mode} | Mean : {mean}
+      </div>
+
+      <div className="row">
+        {sortedPlayers.map(([userId, player]) => (
+          <PlayerCard
+            key={userId}
+            userId={userId}
+            currentUser={deviceData.userId}
+            player={player}
+            onRemovePlayer={handleRemovePlayer}
+          ></PlayerCard>
+        ))}
+      </div>
+
+      <div className="mb-3 text-center poker-footer">
         <button
           type="button"
           className="btn btn-success mr-3"
@@ -97,21 +114,9 @@ export const PokerRoom: FunctionComponent<{
         </button>
       </div>
 
-      <div className="text-center mb-3">
-        Mode: {mode} | Mean : {mean}
-      </div>
 
-      <div className="row">
-        {sortedPlayers.map(([userId, player]) => (
-          <PlayerCard
-            key={userId}
-            userId={userId}
-            currentUser={deviceData.userId}
-            player={player}
-            onRemovePlayer={handleRemovePlayer}
-          ></PlayerCard>
-        ))}
-      </div>
+
+
 
       {/* <pre>{JSON.stringify(room, null, 2)}</pre> */}
     </div>

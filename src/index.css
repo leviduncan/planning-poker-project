@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500&family=Poppins:wght@200;500&display=swap');
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  transition-duration: 100ms;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+body {
+  height: 100vh;
+  background-color: #454c83;
+  background-image: linear-gradient(180deg, #454c83 0%, #16192f 80%);
+  
+
+  font-family: 'Poppins', sans-serif;
+  color: #c8ccec;
+}
+
+.bg-purpl {
+    background: #BAC1EC;
+}
+
+.poker-footer {
+    position: fixed;
+    left: 0;
+    bottom: -10px;
+    width: 100vw;
+    padding: 20px;
+}
+
+.poker-info {
+    background: #16192f27;
+    padding: 8px 8px 2px;
+    border-radius: 8px;
+}
+
+button {
+    border-radius: 8px !important;
+}
